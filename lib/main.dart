@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/login/': (context) => const LoginView(),
         '/register/': (context) => const RegisterView(),
+        '/bettashoppa/' :(context) => const BettaShoppa(),
       },
     );
   }
@@ -52,7 +53,7 @@ class HomePage extends StatelessWidget {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
             final user = FirebaseAuth.instance.currentUser;
-            print(user);
+            devtools.log(user.toString());
             if (user != null) {
               if (user.emailVerified) {
                 return const BettaShoppa();
