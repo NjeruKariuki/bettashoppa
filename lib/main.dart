@@ -2,6 +2,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_tutorials/constants/app_constants.dart';
+import 'package:firebase_tutorials/constants/routes.dart';
 import 'package:firebase_tutorials/screens/login_view.dart';
 import 'package:firebase_tutorials/screens/register_view.dart';
 import 'package:firebase_tutorials/screens/verify_email_view.dart';
@@ -31,9 +32,9 @@ class MyApp extends StatelessWidget {
 
       //create named routes
       routes: {
-        '/login/': (context) => const LoginView(),
-        '/register/': (context) => const RegisterView(),
-        '/bettashoppa/' :(context) => const BettaShoppa(),
+        loginRoute: (context) => const LoginView(),
+        registerRoute: (context) => const RegisterView(),
+        bettashoppaRoute :(context) => const BettaShoppa(),
       },
     );
   }
@@ -108,7 +109,7 @@ class _BettaShoppaState extends State<BettaShoppa> {
                   if (shouldLogOut) {
                     await FirebaseAuth.instance.signOut();
                     Navigator.of(context).pushNamedAndRemoveUntil(
-                      '/login/',
+                      loginRoute,
                      (_) => false,
                     );
               }
