@@ -36,12 +36,14 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Register',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18.0,
-          fontWeight: FontWeight.w300,
-        ),),
+        title: const Text(
+          'Register',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w300,
+          ),
+        ),
         elevation: 2,
         backgroundColor: mainHexColor,
       ),
@@ -158,17 +160,40 @@ class _RegisterViewState extends State<RegisterView> {
                 final userCredential = await FirebaseAuth.instance
                     .createUserWithEmailAndPassword(
                         email: email, password: password);
-                devtools.log('use registered successfully');
-
+                await showErrorDialog(
+                  context,
+                  'user registered successfully!',
+                );
+                devtools.log('user registered successfully');
                 devtools.log(userCredential.toString());
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  bettashoppaRoute,
+                  (route) => false,
+                );
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'invalid-email') {
+                  await showErrorDialog(
+                    context,
+                    'Invalid email!',
+                  );
                   devtools.log('invalid email');
                 } else if (e.code == 'weak-password') {
+                  await showErrorDialog(
+                    context,
+                    'Weak password!',
+                  );
                   devtools.log('weak password');
                 } else if (e.code == 'email-already-in-use') {
+                  await showErrorDialog(
+                    context,
+                    'Email already in use!',
+                  );
                   devtools.log('email already in use');
                 } else {
+                  await showErrorDialog(
+                    context,
+                    'Something bad happened!, try again',
+                  );
                   devtools.log('sth bad happened');
                 }
               }
@@ -200,4 +225,26 @@ class _RegisterViewState extends State<RegisterView> {
       ),
     );
   }
+}
+
+Future<void> showErrorDialog(
+  BuildContext context,
+  String text,
+) {
+  return showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: const Text('an error occured'),
+        content: Text(text),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Ok'))
+        ],
+      );
+    },
+  );
 }
