@@ -171,7 +171,17 @@ class _LoginViewState extends State<LoginView> {
                                       'Wrong password!',
                                     );
                                     devtools.log('wrong password');
+                                  } else {
+                                    await showErrorDialog(
+                                      context,
+                                      e.code.toString(),
+                                    );
                                   }
+                                } catch (e) {
+                                  await showErrorDialog(
+                                    context,
+                                    e.toString(),
+                                  );
                                 }
                               },
                               child: Container(

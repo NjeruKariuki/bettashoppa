@@ -196,6 +196,11 @@ class _RegisterViewState extends State<RegisterView> {
                   );
                   devtools.log('sth bad happened');
                 }
+              } catch (e) {
+                await showErrorDialog(
+                  context,
+                  e.toString(),
+                );
               }
             },
             child: const Text(
